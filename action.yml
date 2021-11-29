@@ -1,0 +1,24 @@
+name: 'Apicall action'
+description: 'To be used as a deployment gate'
+inputs:
+  Token:
+    description: 'GitHub API Token'
+    required: true
+  Header: 
+    description: 'Header to be added along with the request'
+    required: true
+  RequestBody: 
+    description: 'Request Body for the api call'
+    required: true
+  ExpectedOutput:
+    description: 'Output to compare the api response with'
+    required: true
+outputs:
+  comparisonoutput:
+    description: 'Script to fail/Pass based on the api call script'
+runs:
+  using: "composite"
+  steps: 
+    - run: |
+       ${{ github.action_path }}/apicalltest.ps1 -token ${{inputs.Token}} -Header ${{ inputs.Header }} -RequestBody ${{ inputs.RequestBody }} -ExpectedOutput ${{ inputs.ExpectedOutput }}
+      shell: pwsh
